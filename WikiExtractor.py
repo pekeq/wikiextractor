@@ -144,6 +144,10 @@ options = SimpleNamespace(
     keep_tables = False,
     
     ##
+    # Truncate after first secton title
+    abstract_only = False,
+
+    ##
     # Whether to preserve links in output
     keepLinks = False,
 
@@ -2534,6 +2538,8 @@ def compact(text):
         # Handle section titles
         m = section.match(line)
         if m:
+            if options.abstract_only: # truncate after first section title
+                break
             title = m.group(2)
             lev = len(m.group(1)) # header level
             if options.toHTML:
@@ -3125,6 +3131,8 @@ def main():
                         help="comma separated list of elements that will be removed from the article text")
     groupP.add_argument("--keep_tables", action="store_true", default=options.keep_tables,
                         help="Preserve tables in the output article text (default=%(default)s)")
+    groupP.add_argument("--abstract_only", action="store_true", default=options.abstract_only,
+                        help="Truncate output article title after first section title (default=%(default)s)")
     default_process_count = max(1, cpu_count() - 1)
     parser.add_argument("--processes", type=int, default=default_process_count,
                         help="Number of processes to use (default %(default)s)")
@@ -3155,6 +3163,7 @@ def main():
     options.expand_templates = args.no_templates
     options.filter_disambig_pages = args.filter_disambig_pages
     options.keep_tables = args.keep_tables
+    options.abstract_only = args.abstract_only
 
     try:
         power = 'kmg'.find(args.bytes[-1].lower()) + 1
