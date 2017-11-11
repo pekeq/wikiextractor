@@ -206,7 +206,7 @@ templateKeys = set(['10', '828'])
 
 ##
 # Regex for identifying disambig pages
-filter_disambig_page_pattern = re.compile("{{disambig(uation)?(\|[^}]*)?}}")
+filter_disambig_page_pattern = re.compile("{{(disambig(uation)?|[Aa]imai|[^}]+の曖昧さ回避)(\|[^}]*)?}}")
 
 ##
 # page filtering logic -- remove templates, undesired xml namespaces, and disambiguation pages
